@@ -1,0 +1,37 @@
+&share
+ wrf_core = 'ARW',
+ max_dom = 2,
+ start_date = '2018-07-01_18:00:00','2018-07-01_18:00:00','2018-07-01_18:00:00'
+ end_date   = '2018-07-30_00:00:00','2018-07-30_00:00:00','2018-07-30_00:00:00'
+ interval_seconds = 21600
+/
+
+&geogrid
+ parent_id         =   1,   1,	1,
+ parent_grid_ratio =   1,   3,	3,
+ i_parent_start    =   1,  233,	289,	299,
+ j_parent_start    =   1,  158,	244,	241,
+ e_we              =  400, 172,	133,	130,
+ e_sn              =  400, 262,	106,	130,
+
+ geog_data_res = 'default','default','default'
+ dx = 4000,
+ dy = 4000,
+ map_proj = 'lambert',
+ ref_lat   =  39.999,
+ ref_lon   = -76.54749,
+ truelat1  =  33.0,
+ truelat2  =  45.0,
+ stand_lon = -97.0,
+ geog_data_path = '/lustre/scratch/mgolbazi/NCAR/WPS_GEOG_new/'
+/
+
+&ungrib
+ out_format = 'WPS',
+ prefix = 'FILE',
+/
+
+&metgrid
+ fg_name = 'SST', 'FILE',
+opt_output_from_metgrid_path = '/lustre/scratch/mgolbazi/SST_NASA/NAM_met/'
+/

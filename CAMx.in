@@ -1,0 +1,92 @@
+! This namelist is used for air quality modeling using CAMx for simulation results presented in Golbazi and Archer (2023).
+
+ &CAMx_Control
+
+ Run_Message      = 'Example CAMx namelist for v7.10',
+ 
+!--- Model clock control ---
+
+ Time_Zone        = 0,                 ! (0=UTC,5=EST,6=CST,7=MST,8=PST)
+ Restart          = .True.
+ Start_Date_Hour  = 2018,06,02,0000,   ! (YYYY,MM,DD,HHmm)
+ End_Date_Hour    = 2018,06,02,2400,   ! (YYYY,MM,DD,HHmm)
+
+ Maximum_Timestep    = 15.,            ! minutes
+ Met_Input_Frequency = 60.,            ! minutes
+ Ems_Input_Frequency = 60.,            ! minutes
+ Output_Frequency    = 60.,            ! minutes
+
+!--- Map projection parameters ---
+
+ Map_Projection      = 'LAMBERT', ! (LAMBERT,POLAR,RPOLAR,MERCATOR,LATLON,UTM)
+ UTM_Zone            = 0,
+ Longitude_Pole      = -97.,      ! deg (west<0,south<0)
+ Latitude_Pole       = 40.,       ! deg (west<0,south<0)
+ True_Latitude1      = 33.,       ! deg (west<0,south<0)
+ True_Latitude2      = 45.,       ! deg (west<0,south<0, can = True_Latitude1)
+
+!--- Parameters for the master (first) grid ---
+
+ Number_of_Grids      = 1,
+ Master_SW_XCoord     = 1140.,         ! km or deg, SW corner of cell(1,1)
+ Master_SW_YCoord     = -456.,        ! km or deg, SW corner of cell(1,1)
+ Master_Cell_XSize    = 4.,           ! km or deg
+ Master_Cell_YSize    = 4.,           ! km or deg
+ Master_Grid_Columns  = 300,
+ Master_Grid_Rows     = 315,
+ Number_of_Layers     = 34,
+ 
+!--- Model options ---
+
+ Diagnostic_Error_Check = .false.,     ! True = will stop after model setup
+ Flexi_Nest             = .false.,     ! True = expect flexi-nested inputs
+ Advection_Solver       = 'PPM',       ! (PPM,BOTT)
+ Chemistry_Solver       = 'EBI',       ! (EBI,LSODE)
+ PiG_Submodel           = 'None',      ! (None,GREASD,IRON)
+ Probing_Tool           = 'None',      ! (None,SA,DDM,HDDM,PA,IPR,IRR,RTRAC,RTCMC)
+ Chemistry              = .true.,
+ Drydep_Model           = 'WESELY89',   ! (None,WESELY89,ZHANG03)
+ Wet_Deposition         = .true.,
+ ACM2_Diffusion         = .false.,
+ Surface_Model          = .false.,
+ Inline_Ix_Emissions    = .true.,
+ Super_Stepping         = .true.,
+ Gridded_Emissions      = .true.,
+ Point_Emissions        = .true.,
+ Ignore_Emission_Dates  = .true.,
+  
+!--- Output specifications ---
+
+ Root_Output_Name         = '../outputs/CAMx.out.v7.10.cb6r5.20180602',
+ Average_Output_3D        = .false.,
+ NetCDF_Format_Output     = .false.,
+ NetCDF_Use_Compression   = .false.,
+ Output_3D_Grid(1)        = .false.,   ! Set Average_Output_3D = .false.
+! Output_3D_Grid(2)        = .false.,   ! if you set any of these to .true.
+! Output_3D_Grid(3)        = .false.,
+
+ Output_Species_Names  = 'ALL',
+
+
+!--- Input files -------------------------------------------------------------
+
+ Chemistry_Parameters = '../inputs/chem/CAMx7.1.chemparam.CB6r5_CF2E_EQSAM',
+ Photolyis_Rates      = '../tuv/2018/tuv.do_CB6r5.180602',
+ Ozone_Column         = '../inputs/o3map/2018/o3map.20180602',
+ Initial_Conditions   = '../inputs/ic/2018/ic.cc.2018_34LAY.bin',
+ Boundary_Conditions  = '../inputs/bc/2018/34LAY/bc.camx.20180602.bin',
+! Top_Concentrations   = '../inputs/ic/2018/topc.camx.bin',
+
+ Point_Sources(1)        = '../ptsrc/2018/with_ships/mrgpt.20180602.12US1.2018ff_18j_WR401_fine.camx',
+
+ Master_Grid_Restart  = '../outputs/windFarms/nf/round2/radicals/CAMx.nf.out.v7.10.cb6r5.20180601.inst',
+
+ Surface_Grid(1) = '../met/2018/SST/windfarms/nofarm/camx.lu.12km.180602.bin',
+ Met3D_Grid(1)   = '../met/2018/SST/windfarms/nofarm/camx.3d.12km.180602.bin',
+ Met2D_Grid(1)   = '../met/2018/SST/windfarms/nofarm/camx.2d.12km.180602.bin',
+ Vdiff_Grid(1)   = '../met/2018/SST/windfarms/nofarm/camx.kv.12km.180602.bin.CMAQ',
+ Cloud_Grid(1)   = '../met/2018/SST/windfarms/nofarm/camx.cr.12km.180602.bin',
+ Emiss_Grid(1,1) = '../emis/2018/with_ships/emis2d.20180602.12US1.2018ff_18j_WR401_fine.camx',
+
+ /
+!-------------------------------------------------------------------------------
